@@ -18,7 +18,7 @@ namespace Training_FPT0.Controllers
 		{
 			_context = new ApplicationDbContext();
 		}
-		// GET: Course
+		// GET: Topic
 		[HttpGet]
 		public ActionResult Index(string searchString)
 		{

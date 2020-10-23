@@ -15,14 +15,14 @@ namespace Training_FPT0.Controllers
 		{
 			_context = new ApplicationDbContext();
 		}
-		// GET: Course
+		// GET: Category
 		[HttpGet]
-		public ActionResult Index()
+		public ActionResult Index(string searchString)
 		{
 			var categories = _context.Categories.ToList();
 			return View(categories);
-
 		}
+
 
 		[HttpGet]
 		public ActionResult Create()
