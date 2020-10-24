@@ -19,6 +19,7 @@
                 <th>Role</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                <th>Details</th>
                 <th>ResetPass</th>
 
 
@@ -26,17 +27,20 @@
         </thead>
         @foreach (var user in Model)
         {
-<tr>
+    <tr>
+        @if ((user.Role.Contains("Trainee") || user.Role.Contains("Admin")) == false)
+        {
     <td>@user.Name</td>
-    <td>@user.Username</td>
-    <td>@user.Email</td>
-    <td>@user.Role</td>
-    <td>@Html.ActionLink("Edit", "Edit", new { id = user.UserId })</td>
-    <td>@Html.ActionLink("Delete", "Delete", new { id = user.UserId })</td>
-    <td>@Html.ActionLink("ResetPass", "ResetPass", new { id = user.UserId })</td>
+        <td>@user.Username</td>
+        <td>@user.Email</td>
+        <td>@user.Role</td>
+        <td>@Html.ActionLink("Edit", "Edit", new { id = user.UserId })</td>
+        <td>@Html.ActionLink("Delete", "Delete", new { id = user.UserId })</td>
+        <td>@Html.ActionLink("Details", "Details", new { id = user.UserId })</td>
+        <td>@Html.ActionLink("ResetPass", "ResetPass", new { id = user.UserId })</td>
 
-
-</tr>}
+        }
+    </tr>}
     </table>
 </div>
 

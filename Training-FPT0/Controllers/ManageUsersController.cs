@@ -83,6 +83,7 @@ namespace Training_FPT0.Controllers
                 userInDb.Name = user.Name;
                 userInDb.UserName = user.UserName;
                 userInDb.Phone = user.Phone;
+                userInDb.WorkingPlace = user.WorkingPlace;
                 userInDb.Email = user.Email;
 
 
@@ -108,6 +109,19 @@ namespace Training_FPT0.Controllers
 
                 return RedirectToAction("UsersWithRoles");
             
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public ActionResult Details(string id)
+        {
+            var usersInDb = _context.Users.SingleOrDefault(p => p.Id == id);
+
+            if (usersInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(usersInDb);
         }
         [Authorize(Roles = "Admin")]
         public ActionResult ResetPass(ApplicationUser user)

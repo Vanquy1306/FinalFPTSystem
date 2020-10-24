@@ -5,6 +5,12 @@
 <p>
     <a onclick="window.location='@Url.Action("Register", "Account")'" class="btn btn-primary btn-lg">New User &raquo;</a>
 </p>}
+@using (Html.BeginForm("Index", "ManagerStaffViewModels", FormMethod.Get))
+{
+<p>
+    Find by name: @Html.TextBox("SearchString")
+    <input type="submit" value="Search" />
+</p>}
 <h3>Trainee</h3>
 <div class="panel-body">
     <table class="table table-striped" id="Index">
@@ -21,16 +27,15 @@
         </thead>
         @foreach (var user in Model.Trainee)
         {
-    <tr>
-        <td>@user.UserName </td>
-        <td> @user.Email</td>
-        <td> @user.RoleName</td>
-        <td>@Html.ActionLink("Edit", "Edit", new { id = user.UserId })</td>
-        <td>@Html.ActionLink("Delete", "Delete", new { id = user.UserId })</td>
-        <td>@Html.ActionLink("ResetPass", "ResetPass", new { id = user.UserId })</td>
+<tr>
+    <td>@user.UserName </td>
+    <td> @user.Email</td>
+    <td> @user.RoleName</td>
+    <td>@Html.ActionLink("Edit", "Edit", new { id = user.UserId })</td>
+    <td>@Html.ActionLink("Delete", "Delete", new { id = user.UserId })</td>
+    <td>@Html.ActionLink("ResetPass", "ResetPass", new { id = user.UserId })</td>
 
-    </tr>
-}
+</tr>}
     </table>
 </div>
 <h3>Trainer</h3>
@@ -51,7 +56,8 @@
     <td> @user.Email</td>
     <td> @user.RoleName</td>
     <td>@Html.ActionLink("Edit", "Edit", new { id = user.UserId })</td>
-</tr>}
+</tr>
+}
     </table>
 </div>
 @Html.ActionLink("Back to home", "Index", "Home")
