@@ -5,12 +5,6 @@
 <p>
     <a onclick="window.location='@Url.Action("Register", "Account")'" class="btn btn-primary btn-lg">New User &raquo;</a>
 </p>}
-@using (Html.BeginForm("Index", "ManagerStaffViewModels", FormMethod.Get))
-{
-<p>
-    Find by name: @Html.TextBox("SearchString")
-    <input type="submit" value="Search" />
-</p>}
 <h3>Trainee</h3>
 <div class="panel-body">
     <table class="table table-striped" id="Index">

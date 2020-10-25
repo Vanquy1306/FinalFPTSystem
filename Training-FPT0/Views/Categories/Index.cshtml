@@ -10,10 +10,14 @@
 </p>}
 @using (Html.BeginForm("Index", "Categories", FormMethod.Get))
 {
-<p>
-    Find by name: @Html.TextBox("SearchString")
-    <input type="submit" value="Search" />
-</p>}
+    <p>
+        <input type="search" placeholder="Enter Category Name"
+               name="searchCategory";" />
+
+        <input type="submit" value="Search" />
+
+    </p>
+}
 <table class="table table-striped">
     <tr>
         <th>Name</th>
@@ -22,7 +26,8 @@
         {
 <th> Delete </th>
                 <th> Edit </th>
-                                <th> Details </th>}
+                                <th> Details </th>
+}
     </tr>
     @foreach (var category in Model)
     {
@@ -33,9 +38,9 @@
     {
 <td>@Html.ActionLink("Delete", "Delete", new { id = category.Id })</td>
                     <td>@Html.ActionLink("Edit", "Edit", new { id = category.Id })</td>
-                                        <td>@Html.ActionLink("Details", "Details", new { id = category.Id })</td>
+                                        <td>@Html.ActionLink("Details", "Details", new { id = category.Id })</td>}
+</tr>
 }
-</tr>}
 </table>
 @Html.ActionLink("Back to home", "Index", "Home")
 
