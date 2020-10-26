@@ -20,7 +20,6 @@ namespace Training_FPT0.Models
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Trainee> Trainees { get; set; }
         public DbSet<Topic> Topics { get; set; }
-        public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<TrainerTopic> TrainerTopics { get; set; }
         public DbSet<TraineeCourse> TraineeCourses { get; set; }
 

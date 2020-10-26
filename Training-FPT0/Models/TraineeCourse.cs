@@ -9,7 +9,6 @@ namespace Training_FPT0.Models
 {
     public class TraineeCourse
     {
-        [Key]
         public int Id { get; set; }
         public string TraineeId { get; set; }
         public int CourseId { get; set; }

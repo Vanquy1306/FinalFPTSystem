@@ -37,32 +37,33 @@ namespace Training_FPT0.Controllers
 
         public ActionResult Create()
         {
-            //get trainer
+            //get trainee
             var role = (from r in _context.Roles where r.Name.Contains("Trainee") select r).FirstOrDefault();
             var users = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
 
-            //get topic
+            //get Course
 
             var courses = _context.Courses.ToList();
 
-            var TrainerTopicVM = new TraineeCourseViewModel()
+            var TraineeCourseVM = new TraineeCourseViewModel()
             {
                 Courses = courses,
                 Trainees = users,
                 TraineeCourse = new TraineeCourse()
             };
 
-            return View(TrainerTopicVM);
+            return View(TraineeCourseVM);
         }
 
         [HttpPost]
         public ActionResult Create(TraineeCourseViewModel model)
         {
-            //get trainer
+            //get trainee
+            //declare the variable "role" to construct data from the source table "Roles" in the column "Name" containing "Trainee" then select
             var role = (from r in _context.Roles where r.Name.Contains("Trainee") select r).FirstOrDefault();
             var users = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
 
-            //get topic
+            //get course
 
             var courses = _context.Courses.ToList();
 
@@ -74,14 +75,14 @@ namespace Training_FPT0.Controllers
                 return RedirectToAction("Index");
             }
 
-            var TrainerTopicVM = new TraineeCourseViewModel()
+            var TraineeCourseVM = new TraineeCourseViewModel()
             {
                 Courses = courses,
                 Trainees = users,
                 TraineeCourse = new TraineeCourse()
             };
 
-            return View(TrainerTopicVM);
+            return View(TraineeCourseVM);
         }
         [HttpGet]
         [Authorize(Roles = "TrainingStaff")]

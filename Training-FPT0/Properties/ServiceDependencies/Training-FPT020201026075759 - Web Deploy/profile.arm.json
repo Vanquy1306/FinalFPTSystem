@@ -7,7 +7,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "FPTTraining",
+      "defaultValue": "FinalSystem",
       "metadata": {
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
       }
@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "Training-FPT020201022170609",
+      "defaultValue": "Training-FPT020201026075759",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

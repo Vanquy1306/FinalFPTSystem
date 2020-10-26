@@ -191,13 +191,16 @@
     <Compile Include="Migrations\202010220925139_UpdateData.designer.cs">
       <DependentUpon>202010220925139_UpdateData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010251335365_UpCodex.cs" />
+    <Compile Include="Migrations\202010251335365_UpCodex.designer.cs">
+      <DependentUpon>202010251335365_UpCodex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\CourseCategory.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Topic.cs" />
     <Compile Include="Models\Trainee.cs" />
@@ -225,7 +228,7 @@
     <Content Include="Image\image.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Properties\PublishProfiles\Training-FPT020201022170609 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Training-FPT020201026075759 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -314,6 +317,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202010220925139_UpdateData.resx">
       <DependentUpon>202010220925139_UpdateData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010251335365_UpCodex.resx">
+      <DependentUpon>202010251335365_UpCodex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
