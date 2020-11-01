@@ -19,6 +19,8 @@ namespace Training_FPT0.Controllers
             _context = new ApplicationDbContext();
         }
         // GET: ManagerStaffViewModels
+        [HttpGet]
+        [Authorize(Roles = "TrainingStaff")]
         public ActionResult Index()
         {
         // declare role variable using the function (FROM-IN) to specify the query data source (Roles).
