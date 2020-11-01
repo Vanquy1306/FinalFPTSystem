@@ -17,6 +17,5 @@ namespace Training_FPT0.ViewModels
         public int Phone { get; set; }
         public List<ManagerStaffViewModel> Trainee { get; set; }
         public List<ManagerStaffViewModel> Trainer { get; set; }
-        public object[] Id { get; internal set; }
     }
 }

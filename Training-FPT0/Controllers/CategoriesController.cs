@@ -17,6 +17,7 @@ namespace Training_FPT0.Controllers
 		}
 		// GET: Category
 		[HttpGet]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Index(string searchCategory)
 		{
 			var categories = _context.Categories.ToList();
@@ -31,12 +32,14 @@ namespace Training_FPT0.Controllers
 
 
 		[HttpGet]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Create(Category category)
 		{
 			if (!ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace Training_FPT0.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Delete(int id)
 		{
 			var categoryInDb = _context.Categories.SingleOrDefault(p => p.Id == id);
@@ -81,6 +85,7 @@ namespace Training_FPT0.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Edit(int id)
 		{
 			var categoryInDb = _context.Categories.SingleOrDefault(p => p.Id == id);
@@ -94,6 +99,7 @@ namespace Training_FPT0.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Edit(Category category)
 		{
 			if (!ModelState.IsValid)
@@ -116,6 +122,7 @@ namespace Training_FPT0.Controllers
 			return RedirectToAction("Index");
 		}
 		[HttpGet]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Details(int id)
 		{
 			var cateInDb = _context.Categories.SingleOrDefault(p => p.Id == id);

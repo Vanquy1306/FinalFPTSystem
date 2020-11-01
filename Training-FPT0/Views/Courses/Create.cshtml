@@ -18,9 +18,10 @@
     <div class="form-group">
         @Html.LabelFor(p => p.Course.Category.Name)
         @Html.DropDownListFor(p => p.Course.CategoryId,
-         new SelectList(Model.Categories, "Id", "Name"),
-         "Select Category Name",
-         new { @class = "form-control" })
+              new SelectList(Model.Categories, "Id", "Name"),
+              "Select Category Name",
+              new { @class = "form-control" })
+
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 }

@@ -34,6 +34,7 @@ namespace Training_FPT0.Controllers
             }
             return View("Login");
         }
+        [Authorize(Roles = "TrainingStaff")]
 
         public ActionResult Create()
         {
@@ -54,35 +55,31 @@ namespace Training_FPT0.Controllers
 
             return View(TraineeCourseVM);
         }
-
+        [Authorize(Roles = "TrainingStaff")]
         [HttpPost]
-        public ActionResult Create(TraineeCourseViewModel model)
+        public ActionResult Create(TraineeCourse traineeCourse)
         {
-            //get trainee
-            //declare the variable "role" to construct data from the source table "Roles" in the column "Name" containing "Trainee" then select
-            var role = (from r in _context.Roles where r.Name.Contains("Trainee") select r).FirstOrDefault();
-            var users = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
-
-            //get course
-
-            var courses = _context.Courses.ToList();
-
-
-            if (ModelState.IsValid)
+         
+            if (!ModelState.IsValid)
             {
-                _context.TraineeCourses.Add(model.TraineeCourse);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                return View();
             }
-
-            var TraineeCourseVM = new TraineeCourseViewModel()
+            var checkTraineeCourses = _context.TraineeCourses.Any(c => c.TraineeId == traineeCourse.TraineeId &&
+                                                                      c.CourseId == traineeCourse.CourseId);
+               //Check if Trainer Name or Topic Name existed or not
+            if (checkTraineeCourses == true)
             {
-                Courses = courses,
-                Trainees = users,
-                TraineeCourse = new TraineeCourse()
+                return View("~/Views/TraineeCourses/AssignExistTraineeCourse.cshtml");
+            }
+            var newTraineeCourse = new TraineeCourse
+            {
+                TraineeId = traineeCourse.TraineeId,
+                CourseId = traineeCourse.CourseId
             };
 
-            return View(TraineeCourseVM);
+            _context.TraineeCourses.Add(newTraineeCourse);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
         [HttpGet]
         [Authorize(Roles = "TrainingStaff")]

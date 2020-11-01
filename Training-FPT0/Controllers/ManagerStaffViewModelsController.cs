@@ -21,9 +21,9 @@ namespace Training_FPT0.Controllers
         // GET: ManagerStaffViewModels
         public ActionResult Index()
         {
-            // declare role variable using the function (FROM-IN) to specify the query data source (Roles).
-            // Look in the name column in the Roles table containing "Trainee" and assign it to the variable
-            var role = (from r in _context.Roles where r.Name.Contains("Trainee") select r).FirstOrDefault();
+        // declare role variable using the function (FROM-IN) to specify the query data source (Roles).
+        // Look in the name column in the Roles table containing "Trainee" and assign it to the variable
+        var role = (from r in _context.Roles where r.Name.Contains("Trainee") select r).FirstOrDefault();
             // declare variable users with function (FROM-IN) to specify the query data source (Users).
             //Find the user in the Users table whose "RoleId" was assigned when registering 
             //containing the "role.Id" selected in the above variable.

@@ -19,6 +19,7 @@ namespace Training_FPT0.Controllers
 		}
 		// GET: Course
 		[HttpGet]
+		[Authorize(Roles = "TrainingStaff")]
 		public ActionResult Index(string searchString)
 		{
 			var courses = _context.Courses
@@ -53,6 +54,12 @@ namespace Training_FPT0.Controllers
 			if (!ModelState.IsValid)
 			{
 				return View();
+			}
+			//Check if Course Name existed or not
+			if (_context.Courses.Any(c => c.Name == course.Name &&
+										  c.CategoryId == course.CategoryId))
+			{
+				return View("~/Views/Courses/CheckExists.cshtml");
 			}
 
 			var newCourse = new Course
