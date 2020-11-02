@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UpdateData : DbMigration
+    public partial class Uptable : DbMigration
     {
         public override void Up()
         {
@@ -14,15 +14,6 @@
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
                         Description = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.CourseCategories",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        CourseCategoryName = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -171,12 +162,12 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        TrainerId = c.String(maxLength: 128),
+                        TrainerId = c.String(nullable: false, maxLength: 128),
                         TopicId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Topics", t => t.TopicId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.TrainerId)
+                .ForeignKey("dbo.AspNetUsers", t => t.TrainerId, cascadeDelete: true)
                 .Index(t => t.TrainerId)
                 .Index(t => t.TopicId);
             
@@ -221,7 +212,6 @@
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Courses");
-            DropTable("dbo.CourseCategories");
             DropTable("dbo.Categories");
         }
     }

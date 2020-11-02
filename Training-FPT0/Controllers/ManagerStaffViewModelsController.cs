@@ -1,143 +1,124 @@
-﻿using Microsoft.AspNet.Identity;
+﻿
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Training_FPT0.Models;
 using Training_FPT0.ViewModels;
 
-namespace Training_FPT0.Controllers
+namespace FTMS.Controllers
 {
     public class ManagerStaffViewModelsController : Controller
     {
-        ApplicationDbContext _context;
+        private ApplicationDbContext _context;
         public ManagerStaffViewModelsController()
         {
             _context = new ApplicationDbContext();
         }
-        // GET: ManagerStaffViewModels
-        [HttpGet]
+        // GET: Admin
         [Authorize(Roles = "TrainingStaff")]
         public ActionResult Index()
         {
-        // declare role variable using the function (FROM-IN) to specify the query data source (Roles).
-        // Look in the name column in the Roles table containing "Trainee" and assign it to the variable
-        var role = (from r in _context.Roles where r.Name.Contains("Trainee") select r).FirstOrDefault();
-            // declare variable users with function (FROM-IN) to specify the query data source (Users).
-            //Find the user in the Users table whose "RoleId" was assigned when registering 
-            //containing the "role.Id" selected in the above variable.
-            var users = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
-            // declare variable userVM to assign the users selected on the variable "users"
-            //to "ManagerStaffViewModel" to display
-            var userVM = users.Select(user => new ManagerStaffViewModel
-            {
-                UserName = user.UserName,
-                Email = user.Email,
-                RoleName = "Trainee",
-                UserId = user.Id
-            }).ToList();
-
-            // declare role2 variable using the function (FROM-IN) to specify the query data source (Roles).
-            // Look in the name column in the Roles table containing "Trainer" and assign it to the variable
-            var role2 = (from r in _context.Roles where r.Name.Contains("Trainer") select r).FirstOrDefault();
-            // declare variable admins with function (FROM-IN) to specify the query data source (Users).
-            //Find the user in the Users table whose "RoleId" was assigned when registering 
-            //containing the "role2.Id" selected in the above variable.
-            var admins = _context.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role2.Id)).ToList();
-            // declare variable adminVM to assign the users selected on the variable "admins"
-            //to "ManagerStaffViewModel" to display
-            var adminVM = admins.Select(user => new ManagerStaffViewModel
-            {
-                UserName = user.UserName,
-                Email = user.Email,
-                RoleName = "Trainer",
-                UserId = user.Id
-            }).ToList();
-
-
-            var model = new ManagerStaffViewModel { Trainee = userVM, Trainer = adminVM };
-            return View(model);
+            var userInfor = (from user in _context.Users
+                             select new
+                             {
+                                 UserId = user.Id,
+                                 Username = user.UserName,
+                                 EmailAddress = user.Email,
+                                 RoleName = (from userRole in user.Roles
+                                             join role in _context.Roles
+                                             on userRole.RoleId
+                                             equals role.Id
+                                             select role.Name)
+                             }
+                       ).ToList().Select(p => new Users_In_Role()
+                       {
+                           UserId = p.UserId,
+                           Username = p.Username,
+                           Email = p.EmailAddress,
+                           Role = string.Join(",", p.RoleName)
+                       }
+                       );
+            return View(userInfor);
         }
+        //DELETE ACCOUNT
+        [HttpGet]
+        [Authorize(Roles = "TrainingStaff")]
+        public ActionResult Delete(string id)
+        {
+            var AccountInDB = _context.Users.SingleOrDefault(p => p.Id == id);
+
+            if (AccountInDB == null)
+            {
+                return HttpNotFound();
+            }
+
+            _context.Users.Remove(AccountInDB);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        //Edit 
         [HttpGet]
         [Authorize(Roles = "TrainingStaff")]
         public ActionResult Edit(string id)
         {
-            if (id == null)
+            var AccountInDB = _context.Users.SingleOrDefault(p => p.Id == id);
+            if (AccountInDB == null)
             {
                 return HttpNotFound();
             }
-            var appUser = _context.Users.Find(id);
-            if (appUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(appUser);
+            return View(AccountInDB);
         }
 
+        //EDIT
         [HttpPost]
         [Authorize(Roles = "TrainingStaff")]
         public ActionResult Edit(ApplicationUser user)
         {
-            var userInDb = _context.Users.Find(user.Id);
-
-            if (userInDb == null)
+            if (!ModelState.IsValid)
             {
-                return View(user);
+                return View();
             }
 
-            if (ModelState.IsValid)
-            {
-                userInDb.Name = user.Name;
-                userInDb.UserName = user.UserName;
-                userInDb.Phone = user.Phone;
-                userInDb.Email = user.Email;
+            var AccountInDB = _context.Users.SingleOrDefault(p => p.Id == user.Id);
 
-
-                _context.Users.AddOrUpdate(userInDb);
-                _context.SaveChanges();
-
-                return RedirectToAction("Index", "ManagerStaffViewModels");
-            }
-            return View(user);
-
-        }
-
-        [Authorize(Roles = "TrainingStaff")]
-        public ActionResult Delete(string id)
-        {
-            var userInDb = _context.Users.SingleOrDefault(p => p.Id == id);
-
-            if (userInDb == null)
+            if (AccountInDB == null)
             {
                 return HttpNotFound();
             }
-            _context.Users.Remove(userInDb);
+
+            AccountInDB.UserName = user.UserName;
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "ManagerStaffViewModels");
-
+            return RedirectToAction("Index");
         }
+
+
+        //RESET PASSWORD
+        [HttpGet]
         [Authorize(Roles = "TrainingStaff")]
-        public ActionResult ResetPass(ApplicationUser user)
+        public ActionResult ResetPass(string id)
         {
-            // Declare the userId variable of Current.User.Identity and access the Id field through GetUserId
-            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            userId = user.Id;
-            if (userId != null)
+            var AccountInDB = _context.Users.SingleOrDefault(p => p.Id == id);
+
+            if (AccountInDB == null)
             {
-                // userManager by managing new users, bringing new data
+                return HttpNotFound();
+            }
+              if (AccountInDB.Id != null)
+            {
                 UserManager<IdentityUser> userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>());
-                // Delete current password of userManager
-                userManager.RemovePassword(userId);
-                // Replace new password "A456456a @" for userManager
+                userManager.RemovePassword(AccountInDB.Id);
                 String newPassword = "A456456a@";
-                userManager.AddPassword(userId, newPassword);
+                userManager.AddPassword(AccountInDB.Id, newPassword);
             }
             _context.SaveChanges();
-            return RedirectToAction("Index", "ManagerStaffViewModels");
+            return RedirectToAction("Index");
         }
     }
 }

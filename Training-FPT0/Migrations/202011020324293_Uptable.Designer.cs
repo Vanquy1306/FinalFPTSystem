@@ -7,13 +7,13 @@ namespace Training_FPT0.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class UpCodex : IMigrationMetadata
+    public sealed partial class Uptable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpCodex));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Uptable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202010251335365_UpCodex"; }
+            get { return "202011020324293_Uptable"; }
         }
         
         string IMigrationMetadata.Source

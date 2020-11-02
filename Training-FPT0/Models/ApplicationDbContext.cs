@@ -16,7 +16,6 @@ namespace Training_FPT0.Models
         }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public ManagerStaffViewModel managerStaffViewModels { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Trainee> Trainees { get; set; }
         public DbSet<Topic> Topics { get; set; }
